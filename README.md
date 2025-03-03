@@ -1,6 +1,16 @@
-[![Memory Box Logo](https://storage.googleapis.com/amotivv-public/memory-box-logo.png)](https://storage.googleapis.com/amotivv-public/memory-box-logo.png)
+<p align="center">
+  <img src="https://storage.googleapis.com/amotivv-public/memory-box-logo.png" alt="Memory Box Logo" width="200"/>
+</p>
 
-# n8n Memory Box Node
+<h1 align="center">n8n Memory Box Node</h1>
+
+<p align="center">
+  n8n community node for Memory Box API integration - store, search, and manage semantic memories
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+</p>
 
 This is an n8n community node for integrating with the Memory Box API. It provides a seamless interface to store, search, and manage memories in Memory Box directly from n8n workflows.
 
