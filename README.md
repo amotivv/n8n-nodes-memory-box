@@ -1,3 +1,5 @@
+[![Memory Box Logo](https://storage.googleapis.com/amotivv-public/memory-box-logo.png)](https://storage.googleapis.com/amotivv-public/memory-box-logo.png)
+
 # n8n Memory Box Node
 
 This is an n8n community node for integrating with the Memory Box API. It provides a seamless interface to store, search, and manage memories in Memory Box directly from n8n workflows.
@@ -87,29 +89,29 @@ This example demonstrates how to store information from an incoming webhook:
    - Set Memory Text to `{{$json.body}}`
    - Optionally set Bucket ID
 
-### AudioPen Integration
+### Generic Integration Example
 
-To integrate with AudioPen transcriptions:
+This example demonstrates a workflow for processing data from various sources:
 
-1. **Webhook Node** - Configure to receive AudioPen webhook data
-2. **Function Node** - Parse and format the AudioPen payload:
+1. **HTTP Request Node** - Fetch data from an external API
+2. **Function Node** - Process and format the data:
    ```javascript
-   // Example function to parse AudioPen webhook data
-   const formData = $input.item.json;
+   // Example function to process and format data
+   const data = $input.item.json;
    
    // Extract key information
-   const title = formData.title;
-   const body = formData.body;
-   const dateCreated = formData.date_created;
+   const title = data.title || "Untitled";
+   const content = data.content || data.description || data.text;
    
-   // Format for Memory Box
-   const formattedDate = dateCreated.split('-').reverse().join('-'); // Convert MM-DD-YYYY to YYYY-MM-DD
+   // Format with today's date for Memory Box
+   const today = new Date();
+   const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
    
    // Return formatted memory
    return {
      json: {
-       memoryText: `${formattedDate}\n\n${body}`,
-       bucketId: "audioNotes"  // Or any bucket you prefer
+       memoryText: `${formattedDate}\n\n${title}\n\n${content}`,
+       bucketId: "apiData"
      }
    };
    ```
