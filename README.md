@@ -1,0 +1,124 @@
+# n8n Memory Box Node
+
+This is an n8n community node for integrating with the Memory Box API. It provides a seamless interface to store, search, and manage memories in Memory Box directly from n8n workflows.
+
+Memory Box is a semantic memory storage and retrieval system powered by vector embeddings. This node allows you to store and retrieve information from Memory Box using n8n workflows.
+
+## Features
+
+- Store new memories in Memory Box
+- Search for memories using semantic search
+- Retrieve all memories
+- Get memories from a specific bucket
+- List all available buckets
+
+## Installation
+
+Follow these steps to install the node in your n8n instance:
+
+### Community Nodes (Recommended)
+
+For users on n8n v0.187+:
+
+1. Go to **Settings > Community Nodes**
+2. Click **Install**
+3. Enter `n8n-nodes-memory-box` and confirm
+4. Restart n8n
+
+### Manual Installation
+
+If you prefer to manually install the node:
+
+```bash
+# Navigate to your n8n installation directory
+cd ~/.n8n
+
+# Install the node
+npm install n8n-nodes-memory-box
+```
+
+## Configuration
+
+To use this node, you'll need:
+
+1. **Memory Box API Token** - Used for authentication with the Memory Box API
+2. **API URL** - The URL of the Memory Box API (e.g., https://memorybox.amotivv.ai/api)
+
+In the n8n Credentials Manager, create new credentials of type "Memory Box API" and configure:
+- **API Token**: Your user-specific token from Memory Box
+- **API URL**: The base URL of the Memory Box API
+
+## Operations
+
+### Memory Operations
+
+1. **Store Memory**
+   - Store a new memory in Memory Box
+   - Requires: Memory Text
+   - Optional: Bucket ID
+
+2. **Search Memories**
+   - Search for memories using semantic search
+   - Requires: Query text
+   - Optional: Debug Mode (provides additional search details)
+
+3. **Get All Memories**
+   - Retrieve all memories for the user
+
+4. **Get From Bucket**
+   - Get all memories from a specific bucket
+   - Requires: Bucket ID
+
+### Bucket Operations
+
+1. **Get All Buckets**
+   - Retrieve all buckets for the user
+
+## Example Usage
+
+### Store a Memory
+
+This example demonstrates how to store information from an incoming webhook:
+
+1. **Webhook Node** - To receive data
+2. **Memory Box Node**:
+   - Set Resource to "Memory"
+   - Set Operation to "Store Memory"
+   - Set Memory Text to `{{$json.body}}`
+   - Optionally set Bucket ID
+
+### AudioPen Integration
+
+To integrate with AudioPen transcriptions:
+
+1. **Webhook Node** - Configure to receive AudioPen webhook data
+2. **Function Node** - Parse and format the AudioPen payload:
+   ```javascript
+   // Example function to parse AudioPen webhook data
+   const formData = $input.item.json;
+   
+   // Extract key information
+   const title = formData.title;
+   const body = formData.body;
+   const dateCreated = formData.date_created;
+   
+   // Format for Memory Box
+   const formattedDate = dateCreated.split('-').reverse().join('-'); // Convert MM-DD-YYYY to YYYY-MM-DD
+   
+   // Return formatted memory
+   return {
+     json: {
+       memoryText: `${formattedDate}\n\n${body}`,
+       bucketId: "audioNotes"  // Or any bucket you prefer
+     }
+   };
+   ```
+3. **Memory Box Node**:
+   - Set Resource to "Memory"
+   - Set Operation to "Store Memory"
+   - Set Memory Text to `{{$json.memoryText}}`
+   - Set Bucket ID to `{{$json.bucketId}}`
+
+## License
+
+[MIT](LICENSE)

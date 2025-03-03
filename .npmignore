@@ -1,0 +1,41 @@
+# Development files
+node_modules
+src/
+.git
+.github
+.vscode
+.editorconfig
+.eslintrc.js
+.prettierrc.js
+tsconfig.json
+gulpfile.js
+
+# Tests
+__tests__/
+*.spec.ts
+*.test.ts
+jest.config.js
+
+# Documentation that doesn't need to be published
+examples/
+docs/
+screenshots/
+
+# Source files (only dist is needed)
+nodes/*.ts
+nodes/**/*.ts
+credentials/*.ts
+credentials/**/*.ts
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env*
+.nvmrc
+
+# Keep only compiled JS files
+!dist/**
